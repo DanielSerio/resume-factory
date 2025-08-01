@@ -134,3 +134,14 @@ code {
     @apply bg-background text-foreground;
   }
 }
+
+/**
+ APP UTILITY
+**/
+
+.form-control .label.required::after {
+  display: inline-block;
+  content: " *";
+  padding-inline-start: 0.33ch;
+  color: var(--destructive);
+}

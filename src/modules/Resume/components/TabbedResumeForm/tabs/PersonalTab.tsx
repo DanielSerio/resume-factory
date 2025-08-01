@@ -1,3 +1,4 @@
+import { LockableInput } from "@/components/controls";
 import { Fieldset, FormControl } from "@/components/forms";
 import { Input } from "@/components/ui/input";
 import type { ResumeSchemaType } from "@/lib/schema";
@@ -23,29 +24,29 @@ export function PersonalTab() {
       </Fieldset>
 
       <Fieldset legend="Personal Information">
-        <FormControl label="First Name" className="w-full sm:max-w-xs">
-          <Input {...register("PersonalInfo.firstName")} />
+        <FormControl required label="First Name" className="w-full sm:max-w-xs">
+          <LockableInput {...register("PersonalInfo.firstName")} />
         </FormControl>
-        <FormControl label="Last Name" className="w-full sm:max-w-xs">
-          <Input {...register("PersonalInfo.lastName")} />
+        <FormControl required label="Last Name" className="w-full sm:max-w-xs">
+          <LockableInput {...register("PersonalInfo.lastName")} />
         </FormControl>
-        <FormControl label="Email" className="w-full sm:max-w-xs">
-          <Input {...register("PersonalInfo.email")} />
+        <FormControl required label="Email" className="w-full sm:max-w-xs">
+          <LockableInput type="email" {...register("PersonalInfo.email")} />
         </FormControl>
-        <FormControl label="Phone" className="w-full sm:max-w-xs">
-          <Input {...register("PersonalInfo.phone")} />
+        <FormControl required label="Phone" className="w-full sm:max-w-xs">
+          <LockableInput type="tel" {...register("PersonalInfo.phone")} />
         </FormControl>
-        <FormControl label="Location" className="w-full sm:max-w-xs">
-          <Input {...register("PersonalInfo.location")} />
+        <FormControl required label="Location" className="w-full sm:max-w-xs">
+          <LockableInput {...register("PersonalInfo.location")} />
         </FormControl>
         <FormControl label="Website" className="w-full sm:max-w-xs">
-          <Input {...register("PersonalInfo.website")} />
+          <LockableInput type="url" {...register("PersonalInfo.website")} />
         </FormControl>
-        <FormControl label="Github" className="w-full sm:max-w-xs">
-          <Input {...register("PersonalInfo.github")} />
+        <FormControl required label="Github" className="w-full sm:max-w-xs">
+          <LockableInput type="url" {...register("PersonalInfo.github")} />
         </FormControl>
         <FormControl label="Codepen" className="w-full sm:max-w-xs">
-          <Input {...register("PersonalInfo.codepen")} />
+          <LockableInput type="url" {...register("PersonalInfo.codepen")} />
         </FormControl>
       </Fieldset>
     </form>
