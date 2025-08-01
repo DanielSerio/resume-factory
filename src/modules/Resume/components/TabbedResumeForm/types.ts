@@ -1,0 +1,1 @@
+export type ResumeFormTabName = 'personal' | 'summary' | 'education' | 'experience' | 'skills';
