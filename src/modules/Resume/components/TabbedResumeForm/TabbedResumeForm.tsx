@@ -1,21 +1,18 @@
 import { FormProvider } from "react-hook-form";
-import { TabsTrigger, Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
+import { Tabs, TabsContent, TabsList } from "@/components/ui/tabs";
 import { TAB_LINKS } from "./links";
 import { useTabbedResumeForm } from "../../hooks/useTabbedResumeForm";
+import { TabList } from "./TabList";
+import type { Resume } from "@/lib/types/models/resume/resume.model";
 
-export function TabbedResumeForm() {
-  const methods = useTabbedResumeForm();
-
+export function TabbedResumeForm({ resume }: { resume?: Resume }) {
+  const methods = useTabbedResumeForm(resume);
   return (
     <div className="flex flex-col">
       <FormProvider {...methods}>
-        <Tabs className="w-full p-4 max-w-4xl mx-auto" defaultValue="personal">
+        <Tabs className="p-4 max-w-4xl mx-auto" defaultValue="personal">
           <TabsList className="w-full mb-8">
-            {TAB_LINKS.map(({ tab }) => (
-              <TabsTrigger key={tab.value} value={tab.value}>
-                {tab.title}
-              </TabsTrigger>
-            ))}
+            <TabList />
           </TabsList>
           {TAB_LINKS.map(({ Component, tab }) => (
             <TabsContent key={tab.value} value={tab.value}>

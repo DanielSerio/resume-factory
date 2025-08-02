@@ -136,6 +136,25 @@ code {
 }
 
 /**
+ Tabbed form error indicators
+**/
+[data-slot="tabs-trigger"] [data-slot="badge"] {
+  font-size: 12px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%)
+}
+
+[data-slot="tabs-trigger"][data-state="inactive"]  [data-slot="badge"] {
+  background: grey;
+}
+
+[data-slot="tabs-trigger"][data-state="active"] [data-slot="badge"] {
+  background: var(--destructive);
+}
+
+/**
  APP UTILITY
 **/
 
@@ -145,3 +164,4 @@ code {
   padding-inline-start: 0.33ch;
   color: var(--destructive);
 }
+

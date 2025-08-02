@@ -1,60 +1,69 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-} from "@/components/ui/select";
-import type { ResumeSchemaType } from "@/lib/schema";
-import { SelectValue } from "@radix-ui/react-select";
-import { useFieldArray, useFormContext } from "react-hook-form";
-import { Fragment } from "react/jsx-runtime";
+import { useResumeFormFieldArray } from "@/modules/Resume/hooks/useResumeFormFieldArray";
+import { SkillCategorySelect } from "../SkillCategorySelect";
+import { SkillRow } from "../SkillRow";
+import { Trash } from "lucide-react";
+import { InlineError } from "../InlineError";
 
 export function SkillsTab() {
-  const { control, register } = useFormContext<ResumeSchemaType>();
   const {
-    fields: rows,
-    append,
-    remove,
-  } = useFieldArray({
-    control,
-    name: "Skills",
-  });
+    form: { register, formState },
+    fieldArray: { fields: rows, remove, append },
+  } = useResumeFormFieldArray("Skills");
 
   return (
-    <>
+    <div className="min-w-[calc(100svw-48px)] md:min-w-[664px] max-w-[664px] mx-auto">
       {rows.length > 0 &&
         rows.map((row, index) => {
+          const errors = formState.errors.Skills?.[index];
+
           return (
-            <Fragment key={row.id}>
-              <Select {...register(`Skills.${index}.category` as const)}>
-                <SelectTrigger>
-                  <SelectValue
-                    defaultValue={row.category}
-                    placeholder={row.category}
-                  />
-                  <SelectContent>
-                    <SelectItem value="Backend">Backend</SelectItem>
-                    <SelectItem value="Frontend">Frontend</SelectItem>
-                    <SelectItem value="Project Management">
-                      Project Management
-                    </SelectItem>
-                    <SelectItem value="Methodology">Methodology</SelectItem>
-                  </SelectContent>
-                </SelectTrigger>
-              </Select>
-              <Input {...register(`Skills.${index}.subcategory` as const)} />
-              <Input {...register(`Skills.${index}.name` as const)} />
-              <Button onClick={() => remove(index)}>*</Button>
-            </Fragment>
+            <SkillRow key={row.id}>
+              <div className="flex flex-col w-full ">
+                <SkillCategorySelect
+                  row={{ category: row.category }}
+                  {...register(`Skills.${index}.category` as const)}
+                />
+                {errors?.category?.message && (
+                  <InlineError message={errors.category.message} />
+                )}
+              </div>
+              <div className="flex flex-col w-full">
+                <Input
+                  placeholder="Subcategory"
+                  {...register(`Skills.${index}.subcategory` as const)}
+                />
+                {errors?.subcategory?.message && (
+                  <InlineError message={errors.subcategory.message} />
+                )}
+              </div>
+              <div className="flex flex-col w-full">
+                <Input
+                  placeholder="Name"
+                  {...register(`Skills.${index}.name` as const)}
+                />
+                {errors?.name?.message && (
+                  <InlineError message={errors.name.message} />
+                )}
+              </div>
+              <Button
+                variant="destructive"
+                className="mt-4 sm:mt-0"
+                onClick={() => remove(index)}
+              >
+                <Trash />
+              </Button>
+            </SkillRow>
           );
         })}
 
       <Button
+        className="w-full"
+        variant="secondary"
         onClick={() =>
           append({
-            category: "Backend",
+            category: "Frontend",
             subcategory: "",
             name: "",
           })
@@ -62,6 +71,6 @@ export function SkillsTab() {
       >
         Add Skill
       </Button>
-    </>
+    </div>
   );
 }

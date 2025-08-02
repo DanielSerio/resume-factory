@@ -1,12 +1,13 @@
-import { z } from 'zod';
+import { nullable, z } from 'zod';
 
 const standardStringSchema = z.string().min(1).max(128);
 const stringNoMaxSchema = z.string().min(1);
 const idTypeSchema = z.number().int().positive();
+const nullableStringSchema = z.string().trim().max(128).nullable().transform((v) => !v ? null : v);
 
 const EducationSchema = z.object({
   id: idTypeSchema.nullable().optional(),
-  resumeId: idTypeSchema,
+  resumeId: idTypeSchema.nullable().optional(),
   school: standardStringSchema,
   degree: standardStringSchema,
   fieldOfStudy: standardStringSchema,
@@ -17,19 +18,18 @@ const EducationSchema = z.object({
 
 const ExperiencePointSchema = z.object({
   id: idTypeSchema.nullable().optional(),
-  resumeExperienceId: idTypeSchema,
+  resumeExperienceId: idTypeSchema.nullable().optional(),
   text: z.string()
 });
 
 const ExperienceSchema = z.object({
   id: idTypeSchema.nullable().optional(),
-  resumeId: idTypeSchema,
+  resumeId: idTypeSchema.nullable().optional(),
   company: standardStringSchema,
   position: standardStringSchema,
   location: standardStringSchema,
   startDate: z.coerce.date(),
   endDate: z.coerce.date().nullable(),
-  description: stringNoMaxSchema.nullable(),
   Points: z.array(ExperiencePointSchema)
 });
 
@@ -43,15 +43,15 @@ export const ResumeSchema = z.object({
   PersonalInfo: z.object({
     firstName: standardStringSchema,
     lastName: standardStringSchema,
-    targetPosition: standardStringSchema,
-    targetCompany: standardStringSchema.nullable(),
+    targetPosition: nullableStringSchema,
+    targetCompany: nullableStringSchema,
     email: z.email().min(5),
     phone: z.string().min(10),
     location: stringNoMaxSchema,
-    website: stringNoMaxSchema,
+    website: nullableStringSchema,
     github: stringNoMaxSchema,
-    codepen: stringNoMaxSchema,
-    summary: z.string().nullable()
+    codepen: nullableStringSchema,
+    summary: z.string().min(100)
   }),
   Education: z.array(EducationSchema),
   Experience: z.array(ExperienceSchema),

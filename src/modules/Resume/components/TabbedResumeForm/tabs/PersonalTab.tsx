@@ -5,17 +5,21 @@ import type { ResumeSchemaType } from "@/lib/schema";
 import { useFormContext } from "react-hook-form";
 
 export function PersonalTab() {
-  const { register } = useFormContext<ResumeSchemaType>();
+  const { register, formState } = useFormContext<ResumeSchemaType>();
   return (
     <form>
       <Fieldset legend="Details">
-        <FormControl label="Target Company" className="w-full sm:max-w-xs">
+        <FormControl
+          label="Target Company"
+          className="w-full"
+          error={formState.errors.PersonalInfo?.targetCompany?.message}
+        >
           <Input
             {...register("PersonalInfo.targetCompany")}
             placeholder="Acme, inc"
           />
         </FormControl>
-        <FormControl label="Target Position" className="w-full sm:max-w-xs">
+        <FormControl label="Target Position" className="w-full">
           <Input
             {...register("PersonalInfo.targetPosition")}
             placeholder="Staff Frontend Engineer"
@@ -24,28 +28,28 @@ export function PersonalTab() {
       </Fieldset>
 
       <Fieldset legend="Personal Information">
-        <FormControl required label="First Name" className="w-full sm:max-w-xs">
+        <FormControl required label="First Name" className="w-full">
           <LockableInput {...register("PersonalInfo.firstName")} />
         </FormControl>
-        <FormControl required label="Last Name" className="w-full sm:max-w-xs">
+        <FormControl required label="Last Name" className="w-full">
           <LockableInput {...register("PersonalInfo.lastName")} />
         </FormControl>
-        <FormControl required label="Email" className="w-full sm:max-w-xs">
+        <FormControl required label="Email" className="w-full">
           <LockableInput type="email" {...register("PersonalInfo.email")} />
         </FormControl>
-        <FormControl required label="Phone" className="w-full sm:max-w-xs">
+        <FormControl required label="Phone" className="w-full">
           <LockableInput type="tel" {...register("PersonalInfo.phone")} />
         </FormControl>
-        <FormControl required label="Location" className="w-full sm:max-w-xs">
+        <FormControl required label="Location" className="w-full">
           <LockableInput {...register("PersonalInfo.location")} />
         </FormControl>
-        <FormControl label="Website" className="w-full sm:max-w-xs">
+        <FormControl label="Website" className="w-full">
           <LockableInput type="url" {...register("PersonalInfo.website")} />
         </FormControl>
-        <FormControl required label="Github" className="w-full sm:max-w-xs">
+        <FormControl required label="Github" className="w-full">
           <LockableInput type="url" {...register("PersonalInfo.github")} />
         </FormControl>
-        <FormControl label="Codepen" className="w-full sm:max-w-xs">
+        <FormControl label="Codepen" className="w-full">
           <LockableInput type="url" {...register("PersonalInfo.codepen")} />
         </FormControl>
       </Fieldset>

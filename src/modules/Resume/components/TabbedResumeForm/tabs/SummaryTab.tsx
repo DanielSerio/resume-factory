@@ -9,8 +9,12 @@ export function SummaryTab() {
 
   return (
     <form>
-      <Fieldset className="w-full" legend="Professional Summary" fill>
-        <FormControl required label="Summary" className="w-full max-w-[100%]">
+      <Fieldset
+        className="w-full max-w-[664px] mx-auto"
+        legend="Professional Summary"
+        fill
+      >
+        <FormControl required label="Summary" className="w-full col-span-2">
           <Textarea
             className="min-h-[144px]"
             placeholder="Tip: Tailor your summary to highlight skills and experiences relevant to the target position."

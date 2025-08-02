@@ -1,11 +1,11 @@
 import { Page } from "@/components/layout";
 import { TabbedResumeForm } from "../components/TabbedResumeForm";
 
-export function CreateResumePage() {
+export function EditResumePage() {
   return (
     <Page>
       <header>
-        <h1>Create a new resume</h1>
+        <h1>Edit resume</h1>
       </header>
       <div>
         <TabbedResumeForm />

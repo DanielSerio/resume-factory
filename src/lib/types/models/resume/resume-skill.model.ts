@@ -1,5 +1,5 @@
 export interface ResumeSkillCreate {
-  category: 'Back-end' | 'Front-end' | 'Project Management' | 'Methodology';
+  category: 'Backend' | 'Frontend' | 'Project Management' | 'Methodology';
   subcategory: string;
   name: string;
 }
