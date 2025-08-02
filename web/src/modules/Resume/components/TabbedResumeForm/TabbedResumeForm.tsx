@@ -4,6 +4,7 @@ import { TAB_LINKS } from "./links";
 import { useTabbedResumeForm } from "../../hooks/useTabbedResumeForm";
 import { TabList } from "./TabList";
 import type { Resume } from "@/lib/types/models/resume/resume.model";
+import { FloatingSection } from "./FloatingSection";
 
 export function TabbedResumeForm({ resume }: { resume?: Resume }) {
   const methods = useTabbedResumeForm(resume);
@@ -20,6 +21,7 @@ export function TabbedResumeForm({ resume }: { resume?: Resume }) {
             </TabsContent>
           ))}
         </Tabs>
+        <FloatingSection />
       </FormProvider>
     </div>
   );
