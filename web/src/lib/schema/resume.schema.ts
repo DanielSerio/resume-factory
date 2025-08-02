@@ -1,4 +1,4 @@
-import { nullable, z } from 'zod';
+import { z } from 'zod';
 
 const standardStringSchema = z.string().min(1).max(128);
 const stringNoMaxSchema = z.string().min(1);
@@ -12,8 +12,7 @@ const EducationSchema = z.object({
   degree: standardStringSchema,
   fieldOfStudy: standardStringSchema,
   startDate: z.coerce.date(),
-  endDate: z.coerce.date().nullable(),
-  description: stringNoMaxSchema.nullable()
+  endDate: z.coerce.date().nullable()
 });
 
 const ExperiencePointSchema = z.object({
@@ -26,6 +25,7 @@ const ExperienceSchema = z.object({
   id: idTypeSchema.nullable().optional(),
   resumeId: idTypeSchema.nullable().optional(),
   company: standardStringSchema,
+  tagline: standardStringSchema,
   position: standardStringSchema,
   location: standardStringSchema,
   startDate: z.coerce.date(),

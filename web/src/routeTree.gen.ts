@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ResumesIndexRouteImport } from './routes/resumes/index'
 import { Route as ResumesCreateIndexRouteImport } from './routes/resumes/create/index'
 import { Route as ResumesChar91idChar93IndexRouteImport } from './routes/resumes/[id]/index'
 import { Route as JobPostingsCreateIndexRouteImport } from './routes/job-postings/create/index'
@@ -18,6 +19,11 @@ import { Route as JobPostingsChar91idChar93IndexRouteImport } from './routes/job
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ResumesIndexRoute = ResumesIndexRouteImport.update({
+  id: '/resumes/',
+  path: '/resumes/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ResumesCreateIndexRoute = ResumesCreateIndexRouteImport.update({
@@ -45,6 +51,7 @@ const JobPostingsChar91idChar93IndexRoute =
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/resumes': typeof ResumesIndexRoute
   '/job-postings/[id]': typeof JobPostingsChar91idChar93IndexRoute
   '/job-postings/create': typeof JobPostingsCreateIndexRoute
   '/resumes/[id]': typeof ResumesChar91idChar93IndexRoute
@@ -52,6 +59,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/resumes': typeof ResumesIndexRoute
   '/job-postings/[id]': typeof JobPostingsChar91idChar93IndexRoute
   '/job-postings/create': typeof JobPostingsCreateIndexRoute
   '/resumes/[id]': typeof ResumesChar91idChar93IndexRoute
@@ -60,6 +68,7 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/resumes/': typeof ResumesIndexRoute
   '/job-postings/[id]/': typeof JobPostingsChar91idChar93IndexRoute
   '/job-postings/create/': typeof JobPostingsCreateIndexRoute
   '/resumes/[id]/': typeof ResumesChar91idChar93IndexRoute
@@ -69,6 +78,7 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/resumes'
     | '/job-postings/[id]'
     | '/job-postings/create'
     | '/resumes/[id]'
@@ -76,6 +86,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/resumes'
     | '/job-postings/[id]'
     | '/job-postings/create'
     | '/resumes/[id]'
@@ -83,6 +94,7 @@ export interface FileRouteTypes {
   id:
     | '__root__'
     | '/'
+    | '/resumes/'
     | '/job-postings/[id]/'
     | '/job-postings/create/'
     | '/resumes/[id]/'
@@ -91,6 +103,7 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ResumesIndexRoute: typeof ResumesIndexRoute
   JobPostingsChar91idChar93IndexRoute: typeof JobPostingsChar91idChar93IndexRoute
   JobPostingsCreateIndexRoute: typeof JobPostingsCreateIndexRoute
   ResumesChar91idChar93IndexRoute: typeof ResumesChar91idChar93IndexRoute
@@ -104,6 +117,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/resumes/': {
+      id: '/resumes/'
+      path: '/resumes'
+      fullPath: '/resumes'
+      preLoaderRoute: typeof ResumesIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/resumes/create/': {
@@ -139,6 +159,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ResumesIndexRoute: ResumesIndexRoute,
   JobPostingsChar91idChar93IndexRoute: JobPostingsChar91idChar93IndexRoute,
   JobPostingsCreateIndexRoute: JobPostingsCreateIndexRoute,
   ResumesChar91idChar93IndexRoute: ResumesChar91idChar93IndexRoute,

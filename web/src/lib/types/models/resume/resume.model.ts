@@ -17,9 +17,9 @@ export interface ResumeTemplateCreate {
   github: string;
   codepen: string;
   summary: string;
-  educationIds: number[];
-  experienceIds: number[];
-  skillIds: number[];
+  Education?: ResumeEducation[];
+  Experience?: ResumeExperience[];
+  Skills?: ResumeSkill[];
 }
 
 export interface ResumeCreate {
@@ -35,9 +35,9 @@ export interface ResumeCreate {
   github: string;
   codepen: string;
   summary: string;
-  educationIds: number[];
-  experienceIds: number[];
-  skillIds: number[];
+  Education?: ResumeEducation[];
+  Experience?: ResumeExperience[];
+  Skills?: ResumeSkill[];
 }
 
 export type ResumeTemplate = Pretty<ResumeTemplateCreate & {

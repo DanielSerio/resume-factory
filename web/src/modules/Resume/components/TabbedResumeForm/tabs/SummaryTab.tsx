@@ -10,7 +10,7 @@ export function SummaryTab() {
   return (
     <form>
       <Fieldset
-        className="w-full max-w-[664px] mx-auto"
+        className="min-w-[calc(100svw-48px)] md:min-w-[664px] max-w-[664px] mx-auto"
         legend="Professional Summary"
         fill
       >

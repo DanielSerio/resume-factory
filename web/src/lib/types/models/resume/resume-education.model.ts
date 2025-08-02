@@ -1,5 +1,4 @@
 export interface ResumeEducationCreate {
-  resumeId: number;
   school: string;
   degree: string;
   fieldOfStudy: string;

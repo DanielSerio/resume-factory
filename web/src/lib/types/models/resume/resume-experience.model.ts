@@ -1,8 +1,8 @@
 import type { ResumeExperiencePoint, ResumeExperiencePointCreate } from "./resume-experience-point.model";
 
 export interface ResumeExperienceCreate {
-  resumeId?: number | null;
   company: string;
+  tagline: string;
   position: string;
   location: string;
   startDate: Date;

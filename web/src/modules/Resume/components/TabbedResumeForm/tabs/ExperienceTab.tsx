@@ -6,9 +6,9 @@ import { FormControl } from "@/components/forms";
 import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 import { ExperienceCard } from "../ExperienceCard";
-import { Textarea } from "@/components/ui/textarea";
-import { useFieldArray } from "react-hook-form";
 import { ExperiencePointList } from "../ExperiencePointList";
+
+//TODO: markdown editors for bullet points? (for capturing links)
 
 export function ExperienceTab() {
   const {
@@ -25,13 +25,22 @@ export function ExperienceTab() {
           return (
             <ExperienceCard key={row.id}>
               <CardContent className="gap-2 grid grid-cols-2">
-                <div className="flex flex-col w-full col-span-2">
+                <div className="flex flex-col w-full">
                   <Input
                     placeholder="Company"
                     {...register(`Experience.${index}.company` as const)}
                   />
                   {errors?.company?.message && (
                     <InlineError message={errors.company.message} />
+                  )}
+                </div>
+                <div className="flex flex-col w-full">
+                  <Input
+                    placeholder="Company Tagline"
+                    {...register(`Experience.${index}.tagline` as const)}
+                  />
+                  {errors?.tagline?.message && (
+                    <InlineError message={errors.tagline.message} />
                   )}
                 </div>
                 <div className="flex flex-col w-full">
@@ -104,6 +113,7 @@ export function ExperienceTab() {
         onClick={() =>
           append({
             company: "",
+            tagline: "",
             startDate: new Date(),
             endDate: new Date(),
             location: "",
