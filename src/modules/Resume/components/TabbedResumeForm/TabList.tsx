@@ -46,8 +46,14 @@ export function TabList() {
         if (!experienceList) {
           return 0;
         }
+        const pointErrorList = formState.errors.Experience ?? [];
+        const pointErrors =
+          pointErrorList
+            .flatMap?.((errs) => errs?.Points?.length)
+            .reduce((sum, errCount) => (sum ?? 0) + (errCount ?? 0), 0) ?? 0;
+        const expErrors = experienceList.filter?.((err) => !!err).length ?? 0;
 
-        return experienceList.filter?.((err) => !!err).length ?? 0;
+        return pointErrors + expErrors;
       }
 
       return 0;

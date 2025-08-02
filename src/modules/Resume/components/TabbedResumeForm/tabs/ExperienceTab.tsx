@@ -7,10 +7,11 @@ import { Button } from "@/components/ui/button";
 import { Trash } from "lucide-react";
 import { ExperienceCard } from "../ExperienceCard";
 import { Textarea } from "@/components/ui/textarea";
+import { useFieldArray } from "react-hook-form";
 
 export function ExperienceTab() {
   const {
-    form: { register, formState },
+    form: { control, register, formState },
     fieldArray: { fields: rows, remove, append },
   } = useResumeFormFieldArray("Experience");
 
@@ -19,6 +20,14 @@ export function ExperienceTab() {
       {rows.length > 0 &&
         rows.map((row, index) => {
           const errors = formState.errors.Experience?.[index];
+          const {
+            fields: pointRows,
+            append: addPoint,
+            remove: removePoint,
+          } = useFieldArray({
+            control,
+            name: `Experience.${index}.Points`,
+          });
 
           return (
             <ExperienceCard key={row.id}>
@@ -76,9 +85,42 @@ export function ExperienceTab() {
                     </div>
                   </FormControl>
                 </div>
-                <div className="flex w-full">
-                  <p>Add experience "points" here</p>
+                <div className="flex w-full col-span-2">
+                  {pointRows.map((pointRow, pindex) => {
+                    const pointErrors =
+                      formState.errors.Experience?.[index]?.Points?.[pindex];
+                    return (
+                      <div className="flex-1 flex gap-x-2" key={pointRow.id}>
+                        <div className="flex-1">
+                          <Textarea
+                            {...register(
+                              `Experience.${index}.Points.${pindex}.text`
+                            )}
+                          />
+                          {pointErrors?.text?.message && (
+                            <InlineError message={pointErrors?.text?.message} />
+                          )}
+                        </div>
+                        <Button
+                          variant="destructive"
+                          onClick={() => removePoint(pindex)}
+                        >
+                          <Trash />
+                        </Button>
+                      </div>
+                    );
+                  })}
                 </div>
+                <Button
+                  className="w-full col-span-2 mt-3"
+                  onClick={() => {
+                    addPoint({
+                      text: "",
+                    });
+                  }}
+                >
+                  Add Bullet
+                </Button>
                 <Button
                   className="w-full col-span-2 mt-3"
                   variant="destructive"

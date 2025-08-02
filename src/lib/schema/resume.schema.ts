@@ -19,7 +19,7 @@ const EducationSchema = z.object({
 const ExperiencePointSchema = z.object({
   id: idTypeSchema.nullable().optional(),
   resumeExperienceId: idTypeSchema.nullable().optional(),
-  text: z.string()
+  text: z.string().min(1)
 });
 
 const ExperienceSchema = z.object({
