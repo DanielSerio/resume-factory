@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToMany, JoinTable } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToMany, JoinTable, ManyToOne, JoinColumn } from 'typeorm';
 import { Education } from './education.entity';
 import { Experience } from './experience.entity';
 import { Skill } from './skill.entity';
@@ -46,6 +46,13 @@ export class Resume {
 
   @Column('text')
   summary: string;
+
+  @ManyToOne(() => Resume)
+  @JoinColumn({
+    name: 'resumeTemplateId',
+    referencedColumnName: 'id'
+  })
+  TemplateResume?: Resume;
 
   @ManyToMany(() => Education)
   @JoinTable()

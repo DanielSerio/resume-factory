@@ -9,7 +9,6 @@ export class ExperiencePoint {
   @Column('text')
   text: string;
 
-
   @ManyToOne(() => Experience, (exp) => exp.Points)
-  Experience: Experience;
+  Experience?: Experience;
 }

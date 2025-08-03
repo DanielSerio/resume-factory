@@ -20,36 +20,6 @@ export class CreateResumeTemplateDto {
 
 export class CreateResumeFromTemplateDto {
   resumeTemplateId: number;
-  targetPosition: string;
-  targetCompany: null | string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  location: string;
-  website: string;
-  github: string;
-  codepen: string;
-  summary: string;
-  Skills: ResumeSkill[];
-  Education: ResumeEducation[];
-  Experience: ResumeExperience[];
 }
 
-export class CreateResumeDto {
-  resumeTemplateId: null | number;
-  targetPosition: string;
-  targetCompany: null | string;
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  location: string;
-  website: string;
-  github: string;
-  codepen: string;
-  summary: string;
-  Skills: ResumeSkill[];
-  Education: ResumeEducation[];
-  Experience: ResumeExperience[];
-}
+export type CreateResumeDto = CreateResumeTemplateDto | CreateResumeFromTemplateDto;
