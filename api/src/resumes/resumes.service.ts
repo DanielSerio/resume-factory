@@ -11,6 +11,8 @@ import { Experience } from './entities/experience.entity';
 import { SkillsService } from './skills.service';
 import { EducationService } from './education.service';
 import { Pretty } from 'src/shared/types/utility.types';
+import { ResumeTypeGuardHelpers } from './type-guard.helpers';
+import { ResumeHelpers } from './resume.helpers';
 
 type GenericEntity = Skill | Education | Experience;
 type CreateGenericEntity<Ent extends GenericEntity> = Pretty<Partial<Ent> & { id?: number | null; }>;
@@ -81,50 +83,20 @@ export class ResumesService {
     return await this.repo.save(resume);
   }
 
-  private isSkills(items: unknown[]): items is Array<Skill | ResumeSkill> {
-    if (!items.length) {
-      return false;
-    }
-
-    const first = items[0];
-
-    return !!(first as ResumeSkill).name && !!(first as ResumeSkill).subcategory && !!(first as ResumeSkill).category;
-  }
-
-  private isEducation(items: unknown[]): items is Array<Education | ResumeEducation> {
-    if (!items.length) {
-      return false;
-    }
-
-    const first = items[0];
-
-    return !!(first as ResumeEducation).school && !!(first as ResumeEducation).degree && !!(first as ResumeEducation).fieldOfStudy;
-  }
-
-  private isExperience(items: unknown[]): items is Array<Experience | ResumeExperience> {
-    if (!items.length) {
-      return false;
-    }
-
-    const first = items[0];
-
-    return !!(first as ResumeExperience).company && !!(first as ResumeExperience).tagline && !!(first as ResumeExperience).position;
-  }
-
   private async createOrUpdate<Ent extends GenericEntity>(items: (CreateGenericEntity<Ent> | Ent)[]): Promise<Ent[]> {
     if (items.length === 0) {
       return [] as Ent[];
     }
 
-    if (this.isEducation(items)) {
+    if (ResumeTypeGuardHelpers.isEducation(items)) {
       return await this.educationService.createOrUpdate(items) as Ent[];
     }
 
-    if (this.isSkills(items)) {
+    if (ResumeTypeGuardHelpers.isSkills(items)) {
       return await this.skillsService.createOrUpdate(items) as Ent[];
     }
 
-    if (this.isExperience(items)) {
+    if (ResumeTypeGuardHelpers.isExperience(items)) {
       return await this.experienceService.createOrUpdate(items) as Ent[];
     }
 
@@ -170,12 +142,30 @@ export class ResumesService {
         }
       },
       sorting: params?.sorting ?? null,
-      records
+      records: records.map((record) => ({ ...record, name: ResumeHelpers.getUniqueResumeName(record) }))
     };
   }
 
-  findOne(where: Parameters<typeof this.repo.findOne>[0]['where']) {
-    return this.repo.findOne({ where });
+  async findOne(where: Parameters<typeof this.repo.findOne>[0]['where']) {
+    const found = await this.repo.findOne({
+      where,
+      relations: {
+        Skills: true,
+        Education: true,
+        Experience: {
+          Points: true
+        }
+      }
+    });
+
+    if (!found) {
+      throw new NotFoundException(`Resume not found`);
+    }
+
+    return {
+      ...found,
+      name: ResumeHelpers.getUniqueResumeName(found)
+    };
   }
 
   async update(id: number, updateResumeDto: UpdateResumeDto) {
@@ -187,7 +177,7 @@ export class ResumesService {
 
     const updateField = <Key extends keyof Resume>(key: Key, value?: Resume[Key]) => {
       if (value) {
-        foundResume[key] = value;
+        foundResume[key] = value as typeof foundResume[typeof key];
       }
     };
 
