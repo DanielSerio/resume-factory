@@ -1,19 +1,30 @@
-import type { ListResponse, PagingRequest } from "../types";
+import type { ListResponse } from "../types";
 import { APIService } from "./api.service";
 
 type Resume = any;
 
+interface ListRequestParams {
+  limit: number;
+  offset: number;
+  sortQuery?: string;
+}
+
 class ResumeApiService extends APIService {
   constructor(private BASE_ENDPOINT: `/${string}`) {
-    super('http://localhost:3001');
+    super('http://localhost:3002');
   }
 
-  async list(paging: PagingRequest) {
+  async list(options: ListRequestParams) {
     const searchParams = new URLSearchParams({
-      limit: `${~~paging.limit}`,
-      offset: `${~~paging.offset}`
+      limit: `${~~options.limit}`,
+      offset: `${~~options.offset}`,
     });
-    const response = await this.GET(`${this.BASE_ENDPOINT}>${searchParams}`);
+
+    if (options.sortQuery) {
+      searchParams.append('sort', options.sortQuery);
+    }
+
+    const response = await this.GET(`${this.BASE_ENDPOINT}?${searchParams}`);
 
     return await response.json() as ListResponse<Resume>;
   }
@@ -25,4 +36,4 @@ class ResumeApiService extends APIService {
   }
 }
 
-export const ResumeService = new ResumeApiService('/resume-sets');
+export const ResumeService = new ResumeApiService('/resumes');

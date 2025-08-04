@@ -5,7 +5,7 @@ type JobPosting = any;
 
 class JobPostingApiService extends APIService {
   constructor(private BASE_ENDPOINT: `/${string}`) {
-    super('http://localhost:3001');
+    super('http://localhost:3002');
   }
 
   async list(paging: PagingRequest) {

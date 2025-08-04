@@ -154,6 +154,7 @@ export class ResumesService {
       limit: params?.paging?.limit ?? 25,
       offset: params?.paging?.offset ?? 0
     };
+    const all = await this.repo.count();
     const records = await this.repo.find({
       order: this.getOrder(params?.sorting),
       take: paging.limit,
@@ -161,7 +162,13 @@ export class ResumesService {
     });
 
     return {
-      paging,
+      paging: {
+        ...paging,
+        totals: {
+          records: all,
+          pages: Math.ceil(all / paging.limit)
+        }
+      },
       sorting: params?.sorting ?? null,
       records
     };

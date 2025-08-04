@@ -1,15 +1,16 @@
+import type { Sorting } from "@/lib/types";
 import { useReducer } from "react";
 
 export interface UsePaginationParams {
   defaultLimit?: number;
   defaultOffset?: number;
-  total?: number;
+  defaultSorting?: Sorting;
+  total: number | null;
 }
 
 interface PaginationState {
   limit: number;
   offset: number;
-  total: number | null;
 }
 
 type PaginationActionName =
@@ -72,8 +73,9 @@ export function usePagination(params?: UsePaginationParams) {
   const defaultPagination = {
     limit: params?.defaultLimit ?? 25,
     offset: params?.defaultOffset ?? 0,
-    total: params?.total ?? null,
   };
+
+  console.info("usePagination", params);
 
   const [state, dispatch] = useReducer(
     getPaginationReducer(params),
@@ -81,7 +83,6 @@ export function usePagination(params?: UsePaginationParams) {
   );
 
   const methods = {
-    setTotal: (n: number) => dispatch({ name: "set-total", payload: ~~n }),
     goToFirstPage: () => dispatch({ name: "first-page", payload: null }),
     goToPrevPage: () => dispatch({ name: "prev-page", payload: null }),
     goToNextPage: () => dispatch({ name: "next-page", payload: null }),
